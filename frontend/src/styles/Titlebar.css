@@ -1,0 +1,9 @@
+.title {
+    display: flex;
+    background-color: #40798C;
+    justify-content: start;
+    align-self: baseline;
+    align-content: center;
+    height: 100px;
+    width: 100vw;
+}

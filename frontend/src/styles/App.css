@@ -1,0 +1,10 @@
+#root {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#checklistBody {
+    flex: 1;
+    background-color: #70A9A1;
+}

@@ -1,0 +1,15 @@
+#sidebarContainer {
+
+  background-color: #1f363d;
+}
+
+.sidebar {
+  /*color: yellow;*/
+  /*height: 100%;*/
+  /*display: flex;*/
+  width: 100px;
+}
+
+.sidebar.collapsed {
+  width: 50px;
+}
