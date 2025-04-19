@@ -1,12 +1,9 @@
-import { useState } from "react";
+// import { useState } from "react";
 // import "./Checklist.css";
+import Form from "../components/Form";
 
 function Register() {
-  return (
-    <>
-      <div className="register">REGISTER</div>
-    </>
-  );
+	return <Form route="api/user/register/" method="register"/>
 }
 
-export default Register;
+export default Register

@@ -1,12 +1,9 @@
-import { useState } from "react";
+// import { useState } from "react";
 // import "./Checklist.css";
+import Form from "../components/Form";
 
 function Login() {
-  return (
-    <>
-      <div className="login">LOGIN</div>
-    </>
-  );
+  return <Form route="api/token/" method="login"/>
 }
 
 export default Login;

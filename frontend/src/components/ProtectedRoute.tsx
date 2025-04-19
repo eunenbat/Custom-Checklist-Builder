@@ -1,41 +1,60 @@
 import { Navigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 import { useState, useEffect } from "react";
 import { REFRESH_TOKEN, ACCESS_TOKEN } from "../constants";
+import api from "../api";
 
-function ProtectedRoute({ children }: { children: JSX.Element }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(null);
+interface Props {
+  children: React.ReactNode;
+}
 
-  const refreshToken = localStorage.getItem(REFRESH_TOKEN);
+const ProtectedRoute: React.FC<Props> = ({ children }) => {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+
   const accessToken = localStorage.getItem(ACCESS_TOKEN);
+  const refreshToken = localStorage.getItem(REFRESH_TOKEN);
 
-  // if there is an error with access(), catch it and set isAuthenticated to false
   useEffect(() => {
-    access().catch(() => setIsAuthenticated(false));
-  }, []);
+    const checkAuth = async () => {
+      if (!accessToken) {
+        setIsAuthenticated(false);
+        return;
+      }
 
-  const refresh = async () => {
-    try {
-      const response = await fetch("/api/token/refresh/", {
-        refresh: refreshToken,
-      });
-      if (response.status === 200) {
-        localStorage.setItem(ACCESS_TOKEN, response.data.access);
-        setIsAuthenticated(true);
-      } else {
+      try {
+        const decoded: { exp: number } = jwtDecode(accessToken);
+        const now = Date.now() / 1000;
+
+        if (decoded.exp < now) {
+          // Token expired, try refresh
+          const res = await api.post("/api/token/refresh/", {
+            refresh: refreshToken,
+          });
+
+          if (res.status === 200) {
+            localStorage.setItem(ACCESS_TOKEN, res.data.access);
+            setIsAuthenticated(true);
+          } else {
+            setIsAuthenticated(false);
+          }
+        } else {
+          // Token is valid
+          setIsAuthenticated(true);
+        }
+      } catch (err) {
+        console.error("Token check error:", err);
         setIsAuthenticated(false);
       }
-    } catch (error) {
-      setIsAuthenticated(false);
-    }
-  };
+    };
 
-  const access = async () => {
-    if (!accessToken) {
-      setIsAuthenticated(false);
-      return;
-    }
-  };
-  return isAuthenticated ? children : <Navigate to="/login" replace />;
-}
+    checkAuth();
+  }, []);
+
+  if (isAuthenticated === null) {
+    return <div>Loading...</div>; // or return a spinner component
+  }
+
+  return isAuthenticated ? <>{children}</> : <Navigate to="/login" replace />;
+};
 
 export default ProtectedRoute;
