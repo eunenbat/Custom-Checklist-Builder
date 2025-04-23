@@ -20,6 +20,8 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 # from . import views
 from checklists import views
 from checklists.views import RegisterUser
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,4 +30,7 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 	path("api-auth/", include("rest_framework.urls")),
     path("api/user/register/", views.RegisterUser.as_view(), name="user-register"),
+    path('api/items/', views.ChecklistItemCreateView.as_view(), name='item-create'),
+    path('api/files/', views.ItemFileCreateView.as_view(), name='file-upload'),
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

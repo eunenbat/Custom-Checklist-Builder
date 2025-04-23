@@ -14,10 +14,7 @@ class ChecklistCreate(generics.ListCreateAPIView):
         return Checklist.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
-        if serializer.is_valid():
-            serializer.save(user=self.request.user)
-        else:
-            print(serializer.errors)
+	    serializer.save(user=self.request.user)
 
 class ChecklistDelete(generics.DestroyAPIView):
     serializer_class = ChecklistSerializer
@@ -25,6 +22,16 @@ class ChecklistDelete(generics.DestroyAPIView):
 
     def get_queryset(self):
         return Checklist.objects.filter(user=self.request.user)
+
+class ChecklistItemCreateView(generics.CreateAPIView):
+    queryset = ChecklistItem.objects.all()
+    serializer_class = ChecklistItemSerializer
+    permission_classes = [IsAuthenticated]
+
+class ItemFileCreateView(generics.CreateAPIView):
+    queryset = ItemFile.objects.all()
+    serializer_class = ItemFileSerializer
+    permission_classes = [IsAuthenticated]
 
 class RegisterUser(generics.CreateAPIView):
     queryset = User.objects.all()

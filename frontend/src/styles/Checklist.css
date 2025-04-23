@@ -1,4 +1,32 @@
 .checklist {
-    max-height: 100px;
-    max-width: 100px;
+    height: 200px;
+    width: 200px;
+    outline:2px solid gray;
+    padding: 5px;
+    margin: 5px;
+    background: #1F363D;
+    border-radius: 5%;
+    position: relative;
+}
+.checkTop {
+	display: flex;
+	flex-direction: row;
+	/* align-items: */
+	justify-content: space-between;
+}
+.checkItems {
+
+}
+.addItemBtn {
+	display: flex;
+}
+.checklist-date {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	margin: 2px;
+	align-self: baseline;
+	font-style: italic;
+	color: gray;
+	font-size: 10px;
 }
