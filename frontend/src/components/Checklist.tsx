@@ -13,6 +13,7 @@ function Checklist({
 		id: string;
 		title: string;
 		date: string;
+		share_uuid: string;
 		items?: Array<{
 			id: number;
 			value: string;
@@ -48,8 +49,6 @@ function Checklist({
 					formData.append("item", itemId.toString());
 					formData.append("file", file);
 
-					// console.log("Uploading file for item:", itemId);
-					// console.log("FormData:", formData.get("item"), formData.get("file"));
 					await api.post("/api/files/", formData, {
 						headers: {
 							"Content-Type": "multipart/form-data",
@@ -73,7 +72,7 @@ function Checklist({
 			await api.patch(`/api/items/update/${itemId}/`, {
 				is_completed: isCompleted,
 			});
-			onItemAdded(); // refresh
+			onItemAdded();
 		} catch (err) {
 			console.error("Toggle error:", err);
 		}
@@ -82,7 +81,7 @@ function Checklist({
 	const updateItemValue = async (itemId: number, newValue: string) => {
 		try {
 			await api.patch(`/api/items/update/${itemId}/`, { value: newValue });
-			onItemAdded(); // refresh
+			onItemAdded();
 		} catch (err) {
 			console.error("Update error:", err);
 		}
@@ -91,7 +90,7 @@ function Checklist({
 	const deleteItem = async (itemId: number) => {
 		try {
 			await api.delete(`/api/items/delete/${itemId}/`);
-			onItemAdded(); // refresh
+			onItemAdded();
 		} catch (err) {
 			console.error("Delete error:", err);
 		}
@@ -100,7 +99,7 @@ function Checklist({
 	const handleDeleteFile = async (fileId: number) => {
 		try {
 			await api.delete(`/api/files/${fileId}/`);
-			onItemAdded(); // Refresh checklist after delete
+			onItemAdded();
 		} catch (err) {
 			console.error("Failed to delete file:", err);
 		}
@@ -110,12 +109,21 @@ function Checklist({
 		<div className="checklist">
 			<div className="checkTop">
 				<h3 className="checklist-title">{checklist.title}</h3>
-				{/* <p className="checklist-content">{checklist.content}</p> */}
 				<button
-					className="delete-button"
+					onClick={() => {
+						navigator.clipboard.writeText(
+							`${window.location.origin}/shared/${checklist.share_uuid}`,
+						);
+						alert("Link copied to clipboard!");
+					}}
+				>
+					 Share
+				</button>
+				<button
+					className="checklistDeleteBtn"
 					onClick={() => onDelete(checklist.id)}
 				>
-					Delete
+					X
 				</button>
 			</div>
 			<div className="checkItems">
@@ -135,17 +143,31 @@ function Checklist({
 							/>
 							{item.files?.map((file) => (
 								<div key={file.id} className="item-file">
-									<a href={file.file} target="_blank" rel="noreferrer">
-										{file.file.split("/").pop()}
+									<a
+										href={file.file}
+										target="_blank"
+										rel="noreferrer"
+										title={file.file.split("/").pop()}
+									>
+										📄
 									</a>
-									<button onClick={() => handleDeleteFile(file.id)}>🗑</button>
+									<button
+										className="fileDeleteBtn"
+										onClick={() => handleDeleteFile(file.id)}
+									>
+										x
+									</button>
 								</div>
 							))}
-							<button onClick={() => deleteItem(item.id)}>🗑</button>
+							<button
+								className="deleteItemBtn"
+								onClick={() => deleteItem(item.id)}
+							>
+								🗑
+							</button>
 						</li>
 					))}
 				</ul>
-
 			</div>
 			<div className="checkBottom">
 				<button className="addItemBtn" onClick={() => setShowItemInput(true)}>
@@ -181,7 +203,7 @@ function Checklist({
 						</div>
 					</Modal>
 				)}
-				<p className="checklist-date">{checklist.date}</p>
+				<p className="checklist-date">Created {checklist.date}</p>
 			</div>
 		</div>
 	);

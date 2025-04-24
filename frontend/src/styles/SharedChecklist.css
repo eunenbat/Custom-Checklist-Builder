@@ -1,8 +1,48 @@
-.checklistDeleteBtn {
-	border: none;
-	background-color: transparent;
-	cursor: pointer;
+/* body {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+} */
+
+.sharedChecklist {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	padding: 20px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	max-width: 600px;
+	min-width: 300px;
 }
+
+.sharedChecklist h2 {
+	margin-bottom: 10px;
+}
+
+.sharedChecklist ul {
+	list-style-type: none;
+	padding: 0;
+}
+
+.sharedChecklist li {
+	display: flex;
+	align-items: center;
+	margin-bottom: 5px;
+}
+
+.sharedChecklist li input[type="checkbox"] {
+	margin-right: 10px;
+}
+
+.sharedChecklist li label {
+	flex-grow: 1;
+}
+
+.sharedChecklist li button {
+	margin-left: 10px;
+}
+
 li {
 	list-style-type: none;
 	/* outline: 1px white; */
@@ -39,7 +79,6 @@ input[type="checkbox"]:checked {
 	background-color: white;
 }
 
-
 li input[type="text"] {
 	background-color: transparent;
 	border: none;
@@ -49,65 +88,11 @@ li input[type="text"] {
 	height: 20px;
 	width: 100%;
 }
-li input[type="checkbox"]:checked ~ input[type="text"] {
+li input[type="checkbox"]:checked ~ .inputValue {
 	text-decoration: line-through;
 	/* color: gray; */
 	/* opacity: 0.6;   */
 }
-
-.deleteItemBtn{
-  display: none;
-}
-
-
-li:hover .deleteItemBtn {
-  display: inline-block;
-}
-
-.checklist {
-	width: 100%;
-	min-height: 200px;
-	min-width: 100px;
-	outline: 2px solid gray;
-	padding: 5px;
-	margin: 5px;
-	background: #1f363d;
-	border-radius: 5%;
-	position: relative;
-	display: flex;
-	flex-direction: column;
-}
-.checkTop {
-	display: flex;
-	flex-direction: row;
-	/* align-items: */
-	justify-content: space-between;
-	margin: 5px;
-}
-.checkItems {
-	/* margin-top: 5px;
-	margin-bottom: 5px; */
-	margin: 5px;
-	flex: 1;
-	display: flex;
-}
-
-.checklist-date {
-	position: absolute;
-	bottom: 0;
-	right: 0;
-	margin: 2px;
-	align-self: baseline;
-	font-style: italic;
-	color: gray;
-	font-size: 10px;
-}
-.fileDeleteBtn {
-	position: absolute;
-	top: -5px;
-	right: -5px;
-}
-
 .item-file {
 	position: relative;
 	margin-right: 20px;
@@ -116,6 +101,9 @@ li:hover .deleteItemBtn {
 	color: white;
 	text-decoration: none;
 	margin-right: 5px;
+}
+.inputValue {
+	flex-grow: 1;
 }
 .item-file button {
 	border: none;

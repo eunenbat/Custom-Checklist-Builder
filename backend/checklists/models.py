@@ -1,11 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
+import uuid
 
 # Create your models here.
 class Checklist(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="checklists", null=True)
     title = models.TextField(blank=False, null=False)
     date = models.DateField(auto_now_add=True)
+    share_uuid = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
 
     def __str__(self):
         return self.title
@@ -16,7 +18,7 @@ class ChecklistItem(models.Model):
     is_completed = models.BooleanField(default=False)
 
     def delete(self, *args, **kwargs):
-            # delete associated files
+
             for file in self.files.all():
                 file.file.delete(save=False)
             super().delete(*args, **kwargs)

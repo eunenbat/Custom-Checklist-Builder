@@ -29,13 +29,10 @@ class ChecklistItemSerializer(serializers.ModelSerializer):
 
 
 class ChecklistSerializer(serializers.ModelSerializer):
-    # user = serializers.PrimaryKeyRelatedField(source = 'user.username')
     items = ChecklistItemSerializer(many=True, required=False)
     class Meta:
         model = Checklist
-        # fields = ['id', 'title', 'date']
-        # read_only_fields = ['id', 'date']
-        fields = ['id', 'user', 'title', 'date', 'items']
+        fields = ['id', 'title', 'date', 'items', 'share_uuid']
         extra_kwargs = {'user': {'read_only': True}}
 
     def create(self, validated_data):
@@ -50,9 +47,3 @@ class ChecklistSerializer(serializers.ModelSerializer):
                     ItemFile.objects.create(item=item, **file_data)
 
             return checklist
-
-
-# class ItemFieldSerializer(serializers.Field):
-#     class Meta:
-#         model = ItemField
-#         fields = ['item', 'file']

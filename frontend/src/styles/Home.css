@@ -1,4 +1,22 @@
 #checklist-container {
-	display: flex;
+	display: grid;
 
+	grid-template-columns: repeat(2, 1fr);
+	gap: 1rem;
+	max-width: 600px;
+	margin: 10px auto;
+}
+
+@media (min-width: 0px) and (max-width: 600px) {
+	#checklist-container {
+		grid-template-columns: 1fr;
+		gap: 1rem;
+		max-width: 350px;
+		margin: 10px auto;
+	}
+}
+
+@media (min-width: 601px) {
+	#checklist-container {
+	}
 }

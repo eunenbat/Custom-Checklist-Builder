@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import "../styles/Modal.css"; // Or however you import CSS
+import "../styles/Modal.css";
 
 type ModalProps = {
   children: ReactNode;
@@ -10,6 +10,7 @@ export default function Modal({ children, onClose }: ModalProps) {
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+
         {children}
       </div>
     </div>

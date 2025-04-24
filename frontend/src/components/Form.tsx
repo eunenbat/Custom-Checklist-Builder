@@ -10,7 +10,6 @@ function Form({ route, method }) {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		// Add your form submission logic here
 		try {
 			const response = await api.post(route, { username, password });
 			// console.log(response.data.refresh)
