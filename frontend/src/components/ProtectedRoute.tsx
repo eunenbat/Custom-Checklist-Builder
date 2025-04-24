@@ -50,7 +50,9 @@ const ProtectedRoute: React.FC<Props> = ({ children }) => {
     checkAuth();
   }, []);
 
-
+  if (isAuthenticated === null) {
+    return <div>Loading...</div>; // or return a spinner component
+  }
 
   return isAuthenticated ? <>{children}</> : <Navigate to="/login" replace />;
 };
