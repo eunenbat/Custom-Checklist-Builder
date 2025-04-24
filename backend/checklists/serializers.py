@@ -18,18 +18,19 @@ class UserSerializer(serializers.ModelSerializer):
 class ItemFileSerializer(serializers.ModelSerializer):
     class Meta:
         model = ItemFile
-        fields = ['file']
+        fields = ['id', 'item', 'file']
 
 class ChecklistItemSerializer(serializers.ModelSerializer):
-	file = ItemFileSerializer(many=True, required=False)
+	files = ItemFileSerializer(many=True, required=False)
 
 	class Meta:
 		model = ChecklistItem
-		fields = ['id', 'checklist', 'value', 'file']
+		fields = ['id', 'checklist', 'value','is_completed', 'files']
 
 
 class ChecklistSerializer(serializers.ModelSerializer):
     # user = serializers.PrimaryKeyRelatedField(source = 'user.username')
+    items = ChecklistItemSerializer(many=True, required=False)
     class Meta:
         model = Checklist
         # fields = ['id', 'title', 'date']

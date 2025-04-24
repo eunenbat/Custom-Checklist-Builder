@@ -28,10 +28,28 @@ class ChecklistItemCreateView(generics.CreateAPIView):
     serializer_class = ChecklistItemSerializer
     permission_classes = [IsAuthenticated]
 
+
+class ChecklistItemDeleteView(generics.DestroyAPIView):
+    queryset = ChecklistItem.objects.all()
+    serializer_class = ChecklistItemSerializer
+    permission_classes = [IsAuthenticated]
+    lookup_url_kwarg = 'item_id'
+
+class ChecklistItemUpdateView(generics.UpdateAPIView):
+    queryset = ChecklistItem.objects.all()
+    serializer_class = ChecklistItemSerializer
+    permission_classes = [IsAuthenticated]
+    lookup_url_kwarg = 'item_id'
+
 class ItemFileCreateView(generics.CreateAPIView):
     queryset = ItemFile.objects.all()
     serializer_class = ItemFileSerializer
     permission_classes = [IsAuthenticated]
+
+class ItemFileDeleteView(generics.DestroyAPIView):
+    queryset = ItemFile.objects.all()
+    serializer_class = ItemFileSerializer
+
 
 class RegisterUser(generics.CreateAPIView):
     queryset = User.objects.all()

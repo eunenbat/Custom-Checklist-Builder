@@ -13,6 +13,13 @@ class Checklist(models.Model):
 class ChecklistItem(models.Model):
     checklist = models.ForeignKey(Checklist, on_delete=models.CASCADE, related_name="items")
     value = models.CharField(max_length=255, blank=True)
+    is_completed = models.BooleanField(default=False)
+
+    def delete(self, *args, **kwargs):
+            # delete associated files
+            for file in self.files.all():
+                file.file.delete(save=False)
+            super().delete(*args, **kwargs)
 
 # class ItemField(models.Model):
 #     item = models.ForeignKey(ChecklistItem, on_delete=models.CASCADE, related_name="fields")

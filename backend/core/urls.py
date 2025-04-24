@@ -31,6 +31,10 @@ urlpatterns = [
 	path("api-auth/", include("rest_framework.urls")),
     path("api/user/register/", views.RegisterUser.as_view(), name="user-register"),
     path('api/items/', views.ChecklistItemCreateView.as_view(), name='item-create'),
+    path('api/items/delete/<int:item_id>/', views.ChecklistItemDeleteView.as_view(), name='item-delete'),
+    path('api/items/update/<int:item_id>/', views.ChecklistItemUpdateView.as_view(), name='item-update'),
     path('api/files/', views.ItemFileCreateView.as_view(), name='file-upload'),
+    path("api/files/<int:pk>/", views.ItemFileDeleteView.as_view(), name="delete-file"),
+
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
